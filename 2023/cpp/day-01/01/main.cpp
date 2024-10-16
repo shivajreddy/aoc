@@ -37,7 +37,7 @@ int main() {
 
   // /*
   // Read the input file
-  ifstream file("./2023/cpp/01/input.txt");
+  ifstream file("./2023/cpp/day-01/input.txt");
 
   // Check if the file is opened correctly
   if (!file.is_open()) {

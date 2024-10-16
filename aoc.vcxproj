@@ -125,14 +125,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="2023\cpp\01\main.cpp" />
-    <ClCompile Include="2023\cpp\02\main.cpp" />
+    <ClCompile Include="2023\cpp\day-01\01\main.cpp" />
+    <ClCompile Include="2023\cpp\day-01\02\main.cpp" />
+    <ClCompile Include="2023\cpp\day-01\02\work.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="2023\cpp\01\input.txt" />
+    <Text Include="2023\cpp\day-01\log3.log" />
+    <Text Include="2023\cpp\day-01\log1.log" />
+    <Text Include="2023\cpp\day-01\log2.log" />
+    <Text Include="2023\cpp\day-01\input.txt" />
+    <Text Include="2023\cpp\day-01\test_input.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
