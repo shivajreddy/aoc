@@ -21,7 +21,6 @@ int get_digit(const string& line, const unordered_map<string, int>& word_map,
   // Find the word digits
   for (const auto& [digit_word, digit] : word_map) {
     size_t pos = line.find(digit_word);
-    // size_t pos = lower_line.find(digit_word);
     while (pos != string::npos) {
       found_digits.push_back({pos, digit});
       pos = line.find(digit_word, pos + 1);
@@ -47,7 +46,7 @@ int get_calibrated_value(string line) {
   int right_digit = get_digit(line, string_num_map, false);
 
   // Return the two digit number
-  int calibrated_number = left_digit * 10 + right_digit;
+  int calibrated_number = (left_digit * 10) + right_digit;
 
   return calibrated_number;
 }
