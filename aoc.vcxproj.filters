@@ -15,8 +15,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2023\cpp\01\main.cpp">
+    <ClCompile Include="2023\cpp\day-01\01\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="2023\cpp\day-01\02\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="2023\cpp\day-01\02\work.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="2023\cpp\day-02\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="2023\cpp\day-01\log3.log" />
+    <Text Include="2023\cpp\day-01\log1.log" />
+    <Text Include="2023\cpp\day-01\log2.log" />
+    <Text Include="2023\cpp\day-01\input.txt" />
+    <Text Include="2023\cpp\day-01\test_input.txt" />
+    <Text Include="2023\cpp\day-02\input.txt" />
   </ItemGroup>
 </Project>
