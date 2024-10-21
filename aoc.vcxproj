@@ -129,6 +129,7 @@
     <ClCompile Include="2023\cpp\day-01\02\main.cpp" />
     <ClCompile Include="2023\cpp\day-01\02\work.cpp" />
     <ClCompile Include="2023\cpp\day-02\main.cpp" />
+    <ClCompile Include="2023\cpp\day-03\part1.cpp" />
     <ClCompile Include="2023\cpp\day-03\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +144,10 @@
     <Text Include="2023\cpp\day-02\input.txt" />
     <Text Include="2023\cpp\day-02\test_input.txt" />
     <Text Include="2023\cpp\day-03\input.txt" />
+    <Text Include="2023\cpp\day-03\test_input.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="2023\cpp\day-03\day3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,6 +27,9 @@
     <ClCompile Include="2023\cpp\day-02\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="2023\cpp\day-03\part1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="2023\cpp\day-03\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,5 +46,11 @@
     <Text Include="2023\cpp\day-02\input.txt" />
     <Text Include="2023\cpp\day-02\test_input.txt" />
     <Text Include="2023\cpp\day-03\input.txt" />
+    <Text Include="2023\cpp\day-03\test_input.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="2023\cpp\day-03\day3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
