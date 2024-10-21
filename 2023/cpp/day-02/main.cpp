@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -65,7 +66,7 @@ void covert_turn_to_bag(string turn, Bag* bag) {
   }
 }
 
-void convert_to_game(const string& line) {
+Game convert_to_game(const string& line) {
   Game game;
 
   size_t start = 5;
@@ -80,24 +81,55 @@ void convert_to_game(const string& line) {
     covert_turn_to_bag(turns[idx], &bag);
     game.all_turns.push_back(bag);
   }
-  game.print();
+  return game;
+}
+
+bool validate_game(Game* game) {
+  // Allowed count
+  int RED = 12, BLUE = 14, GREEN = 13;
+
+  // Evaluate all turns
+  for (Bag bag : game->all_turns) {
+    if (bag.red > RED || bag.blue > BLUE || bag.green > GREEN) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 int main() {
-  string test1 =
-      "Game 1: 4 red, 8 green; 8 green, 6 red; 13 red, 8 green; 2 blue, 4 "
-      "red, "
-      "4 green";
+  /*
   string test =
       "Game 54: 13 blue, 8 green; 15 blue, 3 red, 7 green; 8 green, 1 blue; 8 "
       "blue, 3 red, 6 green; 3 red, 1 green, 12 blue; 9 green, 3 red, 2 blue";
-  string test3 =
-      "Game 55: 2 red, 1 blue, 2 green; 4 blue, 3 green, 1 red; 4 red, 7 "
-      "green, 4 blue; 7 green, 3 red, 1 blue; 2 blue, 4 green, 1 red; 5 blue, "
-      "1 red, 4 green";
-
   cout << test << endl;
-  convert_to_game(test);
+  Game game = convert_to_game(test);
+  game.print();
+  */
 
+  // Read the input file
+  std::ifstream file("./2023/cpp/day-02/input.txt");
+
+  // Check if the file is opened correctly
+  if (!file.is_open()) {
+    cout << "Failed to open file" << endl;
+    return -1;
+  }
+
+  // Sum of all calibration values
+  int result = 0;
+
+  string line;
+  while (getline(file, line)) {
+    int calib_val;
+
+    Game game = convert_to_game(line);
+    if (validate_game(&game)) {
+      result += game.game_id;
+    }
+  }
+
+  cout << "Result: " << result << endl;
   return 0;
 }
