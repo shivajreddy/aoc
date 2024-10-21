@@ -101,7 +101,6 @@ bool validate_game(Game* game) {
 
 int get_power(Game* game) {
   int red = 0, blue = 0, green = 0;
-  // 4, 2, 6
 
   for (Bag bag : game->all_turns) {
     red = std::max(bag.red, red);
@@ -110,21 +109,13 @@ int get_power(Game* game) {
   }
 
   int result = red * green * blue;
-  cout << "result: " << result << endl;
+  // cout << red << " " << green << " " << blue << " Result:" << result << endl;
   return result;
 }
 
 int main() {
-  /*
-  string test =
-      "Game 54: 13 blue, 8 green; 15 blue, 3 red, 7 green; 8 green, 1 blue; 8 "
-      "blue, 3 red, 6 green; 3 red, 1 green, 12 blue; 9 green, 3 red, 2 blue";
-  cout << test << endl;
-  Game game = convert_to_game(test);
-  game.print();
-  */
-
   // Read the input file
+  // std::ifstream file("./2023/cpp/day-02/test_input.txt");
   std::ifstream file("./2023/cpp/day-02/input.txt");
 
   // Check if the file is opened correctly
@@ -141,10 +132,13 @@ int main() {
     int calib_val;
 
     Game game = convert_to_game(line);
-    if (validate_game(&game)) {
-      // result += game.game_id;
-      result += get_power(&game);
-    }
+    // Part 01
+    // if (validate_game(&game)) {
+    //  result += game.game_id;
+    //}
+
+    // Part 02
+    result += get_power(&game);
   }
 
   cout << "Result: " << result << endl;

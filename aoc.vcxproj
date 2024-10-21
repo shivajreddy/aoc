@@ -140,6 +140,7 @@
     <Text Include="2023\cpp\day-01\input.txt" />
     <Text Include="2023\cpp\day-01\test_input.txt" />
     <Text Include="2023\cpp\day-02\input.txt" />
+    <Text Include="2023\cpp\day-02\test_input.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
