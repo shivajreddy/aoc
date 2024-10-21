@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -98,6 +99,21 @@ bool validate_game(Game* game) {
   return true;
 }
 
+int get_power(Game* game) {
+  int red = 0, blue = 0, green = 0;
+  // 4, 2, 6
+
+  for (Bag bag : game->all_turns) {
+    red = std::max(bag.red, red);
+    blue = std::max(bag.blue, blue);
+    green = std::max(bag.green, green);
+  }
+
+  int result = red * green * blue;
+  cout << "result: " << result << endl;
+  return result;
+}
+
 int main() {
   /*
   string test =
@@ -126,7 +142,8 @@ int main() {
 
     Game game = convert_to_game(line);
     if (validate_game(&game)) {
-      result += game.game_id;
+      // result += game.game_id;
+      result += get_power(&game);
     }
   }
 
