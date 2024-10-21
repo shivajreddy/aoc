@@ -51,7 +51,7 @@ int get_calibrated_value(string line) {
   return calibrated_number;
 }
 
-int day_01_part_02() {
+int day_01_part_02_main() {
   // Read the input file
   ifstream file("./2023/cpp/day-01/input.txt");
 

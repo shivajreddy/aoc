@@ -27,6 +27,9 @@
     <ClCompile Include="2023\cpp\day-02\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="2023\cpp\day-03\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -39,5 +42,6 @@
     <Text Include="2023\cpp\day-01\test_input.txt" />
     <Text Include="2023\cpp\day-02\input.txt" />
     <Text Include="2023\cpp\day-02\test_input.txt" />
+    <Text Include="2023\cpp\day-03\input.txt" />
   </ItemGroup>
 </Project>

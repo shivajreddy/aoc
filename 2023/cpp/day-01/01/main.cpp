@@ -29,7 +29,7 @@ int get_two_digit_number(string& line) {
   return first_digit * 10 + second_digit;
 }
 
-int main() {
+int day_01_part_01_main() {
   // /* Testing
   string test_line = "btr4seventhree7hbkkg";
   cout << get_two_digit_number(test_line) << endl;

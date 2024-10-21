@@ -113,7 +113,7 @@ int get_power(Game* game) {
   return result;
 }
 
-int main() {
+int day_02_main() {
   // Read the input file
   // std::ifstream file("./2023/cpp/day-02/test_input.txt");
   std::ifstream file("./2023/cpp/day-02/input.txt");
