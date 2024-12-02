@@ -1,17 +1,57 @@
 // https://adventofcode.com/2024/day/2
 
-#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <vector>
 
 using namespace std;
 
 const string FILE_PATH { "./2024/cpp/day-02/01/input.txt" };
 
-// int day_01_part_01_main() {
+bool isValidLine(const std::string &line)
+{
+    std::istringstream iss(line);
+    int prevNumber, currNumber;
+
+    // Read the first two numbers to establish direction and initial diff
+    if (!(iss >> prevNumber) || !(iss >> currNumber)) {
+        return false; // Invalid line if fewer than two numbers
+    }
+
+    // Determine increasing or decreasing direction
+    bool isIncreasing = prevNumber < currNumber;
+
+    // Check absolute difference to be with in a difference of 3
+    int diff = abs(prevNumber - currNumber);
+    if (diff <= 0 || diff > 3) {
+        return false;
+    }
+
+    prevNumber = currNumber; // Update previous before next iteration
+
+    // Process the rest of the numbers
+    while (iss >> currNumber) {
+
+        // Check absolute difference to be with in a difference of 3
+        diff = abs(prevNumber - currNumber);
+        if (diff <= 0 || diff > 3) {
+            return false;
+        }
+
+        // Validate direction
+        if ((isIncreasing && currNumber <= prevNumber) ||
+            (!isIncreasing && currNumber >= prevNumber)) {
+            return false; // Inconsistent direction
+        }
+
+        prevNumber = currNumber; // Update previous before next iteration
+    }
+
+    return true;
+}
+
+// int day_02_part_01_main() {
 int main()
 {
     // Read the input file
@@ -23,34 +63,16 @@ int main()
         return -1;
     }
 
-    vector<int> leftNumbers, rightNumbers;
+    int safeReports = 0;
 
     string line;
     while (getline(file, line)) {
-        // Create a string stream object
-        istringstream iss(line);
 
-        // Variables to hold the numbers
-        int leftNumber, rightNumber;
-
-        // Extract the numbers from the string
-        iss >> leftNumber >> rightNumber;
-
-        leftNumbers.push_back(leftNumber);
-        rightNumbers.push_back(rightNumber);
+        if (isValidLine(line))
+            safeReports += 1;
     }
 
-    // Sort leftNumbers & rightNumber : 2.n.log(n)
-    sort(leftNumbers.begin(), leftNumbers.end());
-    sort(rightNumbers.begin(), rightNumbers.end());
-
-    int result = 0;
-
-    for (int i = 0; i < leftNumbers.size(); ++i) {
-        result += abs(leftNumbers[i] - rightNumbers[i]);
-    }
-
-    cout << "RESULT: " << result << endl;
+    cout << "RESULT: " << safeReports << endl;
 
     return 0;
 }
