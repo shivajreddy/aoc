@@ -7,7 +7,8 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+using std::string;
+using std::vector;
 
 #pragma region Problem - Constants
 const string FILE_PATH = "./2024/cpp/day-02/02/input.txt";
@@ -72,11 +73,11 @@ bool isValidSequence(const vector<int> &nums, bool isIncreasingSequence)
 int main()
 {
     // Read the input file
-    ifstream file(FILE_PATH);
+    std::ifstream file(FILE_PATH);
 
     // Check if the file is opened correctly
     if (!file.is_open()) {
-        cerr << "Failed to open file" << endl;
+        std::cerr << "Failed to open file" << std::endl;
         return -1;
     }
 
@@ -86,7 +87,7 @@ int main()
     while (getline(file, line)) {
         // 1. Create a vector of numbers
         vector<int> nums;
-        istringstream iss(line);
+        std::istringstream iss(line);
         int num;
         while (iss >> num) {
             nums.push_back(num);
@@ -98,6 +99,6 @@ int main()
         }
     }
 
-    cout << "RESULT: " << safeReports << endl;
+    std::cout << "RESULT: " << safeReports << std::endl;
     return 0;
 }
