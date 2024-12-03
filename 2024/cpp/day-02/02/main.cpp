@@ -4,10 +4,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-#define FILE_PATH "./2024/cpp/day-02/01/input.txt"
+#define FILE_PATH "./2024/cpp/day-02/01/test.txt"
 
 bool isValidLine(const string &line, bool removeCurrentNumber = false)
 {
@@ -50,37 +51,98 @@ bool isValidLine(const string &line, bool removeCurrentNumber = false)
     return true;
 }
 
-bool isValidWithToleration(const string &line)
+// HELPER: Validate the vector of numbers for a given sequence
+bool validateVector(const vector<int> &nums, bool isIncreasing)
 {
-    // Try removing each number and check if the resulting line is valid
-    istringstream iss(line);
-    string currentLine;
-    string tempLine;
-    string skipNumber;
-
-    while (getline(iss, skipNumber, ' ')) {
-        // Reconstruct the line without the current number
-        tempLine.clear();
-
-        istringstream originalIss(line);
-        string number;
-
-        while (getline(originalIss, number, ' ')) {
-            if (number != skipNumber) {
-                if (!tempLine.empty()) {
-                    tempLine += " ";
-                }
-                tempLine += number;
-            }
-        }
-
-        // Check if the line without the current number is valid
-        if (isValidLine(tempLine)) {
-            return true;
-        }
+    int diff = abs(nums[0] - nums[1]);
+    if (diff <= 0 || diff > 3) {
+        // cout << "E1\n";
+        return false;
     }
 
-    return false;
+    int prevNumber { nums[0] };
+    for (int i = 1; i < nums.size(); ++i) {
+        int currNumber = nums[i];
+
+        int diff =
+            isIncreasing ? currNumber - prevNumber : prevNumber - currNumber;
+        if (diff <= 0 || diff > 3) {
+            // cout << "E2\n";
+            return false;
+        }
+        prevNumber = currNumber;
+    }
+    return true;
+}
+
+bool validateVectorWithTolerance(const vector<int> &nums, bool isIncreasing)
+{
+    // EDGE case:
+    if (abs(nums[0] - nums[1]) == 0) {
+        cout << "E1\n";
+        return false;
+    }
+
+    // int diff = abs(nums[0] - nums[1]);
+    // if (diff <= 0 || diff > 3) {
+    //     // cout << "E1\n";
+    //     return false;
+    // }
+
+    int prevNumber { nums[0] };
+    for (int i = 1; i < nums.size(); ++i) {
+        int currNumber = nums[i];
+
+        int diff =
+            isIncreasing ? currNumber - prevNumber : prevNumber - currNumber;
+        if (diff <= 0 || diff > 3) {
+            // cout << "E2\n";
+            return false;
+
+            // Create a new vector with out this breaking item
+
+            // Variant-1: Ignore i'th
+            vector<int> variant1_left(nums.begin(), nums.begin() + i);
+            vector<int> variant1_right(nums.begin() + i + 1, nums.end());
+            vector<int> variant1_final = variant1_left;
+            variant1_final.insert(variant1_final.end(), variant1_right.begin(),
+                                  variant1_right.end());
+            if (validateVector(variant1_final, isIncreasing))
+                return true;
+
+            // Variant-2: Ignore i-1'th
+            vector<int> variant2_left(nums.begin(), nums.begin() + i - 1);
+            vector<int> variant2_right(nums.begin() + i, nums.end());
+            vector<int> variant2_final = variant2_left;
+            variant2_final.insert(variant2_final.end(), variant2_right.begin(),
+                                  variant2_right.end());
+            if (validateVector(variant2_final, isIncreasing))
+                return true;
+
+            cout << "E2\n";
+            return false;
+        }
+        prevNumber = currNumber;
+    }
+    return true;
+}
+
+bool isValidWithToleration(const string &line)
+{
+    vector<int> nums;
+
+    istringstream iss(line);
+
+    int num;
+    while (iss >> num) {
+        nums.push_back(num);
+    }
+
+    // 1. Determine direction
+    bool isIncreasing = nums[0] < nums[1];
+
+    // return validateVector(nums, isIncreasing);
+    return validateVectorWithTolerance(nums, isIncreasing);
 }
 
 int main()
@@ -99,7 +161,7 @@ int main()
     string line;
 
     while (getline(file, line)) {
-        if (isValidLine(line) || isValidWithToleration(line)) {
+        if (isValidWithToleration(line)) {
             safeReports += 1;
         }
     }
