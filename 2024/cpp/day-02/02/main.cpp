@@ -9,100 +9,61 @@
 
 using namespace std;
 
-#define FILE_PATH "./2024/cpp/day-02/02/test.txt"
-// #define FILE_PATH "./2024/cpp/day-02/02/input.txt"
+#pragma region Problem - Constants
+const string FILE_PATH = "./2024/cpp/day-02/02/input.txt";
+const int MIN_ABSOLUTE_DIFFERENCE = 0;
+const int MAX_ABSOLUTE_DIFFERENCE = 3;
+#pragma endregion
 
-/*
-    8 2 3 4 6
-    |
+// HELPER : Create a new vector copy by removing target index
+vector<int> createVectorCopyBySkippingIndex(const vector<int> &nums, int idx)
+{
+    vector<int> slice1(nums.begin(), nums.begin() + idx);
+    vector<int> slice2(nums.begin() + idx + 1, nums.end());
 
-    2 8 9 10 11
-    |
+    vector<int> combined = slice1;
+    combined.insert(combined.end(), slice2.begin(), slice2.end());
 
-    3 1 5 7 8 9
-        |
+    return combined;
+}
 
-    1 6 3 4 5 7
-        |
-*/
-
-bool validStrictIncreasing(const vector<int> &nums)
+bool isStrictSequence(const vector<int> &nums, bool isIncreasingSequence)
 {
     if (nums.empty() || nums.size() == 1)
         return true;
 
     for (int i = 1; i < nums.size(); ++i) {
-        int diff = nums[i] - nums[i - 1];
-        if (diff <= 0 || diff > 3)
+
+        int diff = isIncreasingSequence ? nums[i] - nums[i - 1]
+                                        : nums[i - 1] - nums[i];
+
+        if (diff <= MIN_ABSOLUTE_DIFFERENCE || diff > MAX_ABSOLUTE_DIFFERENCE)
             return false;
     }
     return true;
 }
 
-bool validStrictDecreasing(const vector<int> &nums)
-{
-    if (nums.empty() || nums.size() == 1)
-        return true;
-
-    for (int i = 1; i < nums.size(); ++i) {
-        int diff = nums[i - 1] - nums[i];
-        if (diff <= 0 || diff > 3)
-            return false;
-    }
-    return true;
-}
-
-bool validIncreasing(const vector<int> &nums)
+bool isValidSequence(const vector<int> &nums, bool isIncreasingSequence)
 {
     if (nums.empty())
         return false;
 
-    int allowedTolerance = 1;
-    int maxDiff = 3;
-
-    int prevNumber = nums[0];
-
     for (int i = 1; i < nums.size(); ++i) {
-        int currNumber = nums[i];
-        int diff = currNumber - prevNumber;
 
-        // Check if the sequence is broken
-        if (diff <= 0 || diff > maxDiff) {
-            // No more tolerances, return false
-            if (allowedTolerance == 0) {
-                return false;
-            }
-            allowedTolerance--;
-        } else {
-            prevNumber = currNumber;
-        }
-    }
-    return true;
-}
+        int diff = isIncreasingSequence ? nums[i] - nums[i - 1]
+                                        : nums[i - 1] - nums[i];
 
-bool validDecreasing(const vector<int> &nums)
-{
-    if (nums.empty())
-        return false;
+        // Check if sequence is broken
+        if (diff <= 0 || diff > 3) {
 
-    int allowedTolerance = 1;
-    int maxDiff = 3;
+            // Ignore i'th number
+            auto variant1 = createVectorCopyBySkippingIndex(nums, i);
 
-    int prevNumber = nums[0];
+            // Ignore (i-1)'th number
+            auto variant2 = createVectorCopyBySkippingIndex(nums, i - 1);
 
-    for (int i = 1; i < nums.size(); ++i) {
-        int currNumber = nums[i];
-        int diff = prevNumber - currNumber;
-
-        // Check if the sequence is broken
-        if (diff <= 0 || diff > maxDiff) {
-            // No more tolerances, return false
-            if (allowedTolerance == 0) {
-                return false;
-            }
-            allowedTolerance--;
-        } else {
-            prevNumber = currNumber;
+            return isStrictSequence(variant1, isIncreasingSequence) ||
+                   isStrictSequence(variant2, isIncreasingSequence);
         }
     }
     return true;
@@ -123,8 +84,7 @@ int main()
     string line;
 
     while (getline(file, line)) {
-
-        // Create a vector of numbers
+        // 1. Create a vector of numbers
         vector<int> nums;
         istringstream iss(line);
         int num;
@@ -132,13 +92,12 @@ int main()
             nums.push_back(num);
         }
 
-        if (validIncreasing(nums) || validDecreasing(nums)) {
+        // 2. Check if this line is a valid 'increasing or deceasing' sequence
+        if (isValidSequence(nums, true) || isValidSequence(nums, false)) {
             safeReports += 1;
-            cout << "✅ " << endl;
-        } else {
-            cout << "❌ " << endl;
         }
     }
-    cout << "\nRESULT: " << safeReports << endl;
+
+    cout << "RESULT: " << safeReports << endl;
     return 0;
 }
