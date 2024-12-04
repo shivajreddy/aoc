@@ -5,26 +5,24 @@
 #include <vector>
 
 #pragma region using-statments
-// using namespace std;
 using std::cerr;
 using std::cout;
 using std::endl;
-using std::pair;
 using std::string;
 using std::vector;
 #pragma endregion
 
 #pragma region Program-Constants
-const string FILE_PATH = "./2024/cpp/day-03/part-01/test.txt";
-// const string FILE_PATH = "./2024/cpp/day-03/part-01/input.txt";
+const string FILE_PATH = "./2024/cpp/day-03/part-01/input.txt";
 #pragma endregion
 
-// HELPER : Find the start,end indexes of matching regular expression
 struct MatchInfo
 {
     string match;
     size_t start;
     size_t end;
+    int x;
+    int y;
 };
 
 vector<MatchInfo> findRegexMatches(const string &text, const string &pattern)
@@ -43,9 +41,17 @@ vector<MatchInfo> findRegexMatches(const string &text, const string &pattern)
         for (std::sregex_iterator i = wordBegin; i != wordEnd; ++i) {
             std::smatch match = *i;
 
+            // Extract the match and positions
+            string fullMatch = match.str();
+            size_t start = match.position();
+            size_t end = start + match.length();
+
+            // Extract x and y from the capturing groups
+            int x = std::stoi(match[1].str()); // First capture group
+            int y = std::stoi(match[2].str()); // Second capture group
+
             // Store match information
-            MatchInfo newMatch { match.str(), (size_t)match.position(),
-                                 (size_t)(match.position() + match.length()) };
+            MatchInfo newMatch { fullMatch, start, end, x, y };
             matches.push_back(newMatch);
         }
     }
@@ -56,19 +62,8 @@ vector<MatchInfo> findRegexMatches(const string &text, const string &pattern)
     return matches;
 }
 
-int findTotal(vector<MatchInfo> matches)
-{
-    int result { 0 };
-    for (auto &match : matches) {
-        int x = match.match[]
-    }
-    return result;
-}
-
 int main()
 {
-    // cout << "DAY-03 PART-01" << endl;
-
     // Read the input file
     std::ifstream file(FILE_PATH);
 
@@ -78,19 +73,23 @@ int main()
         return -1;
     }
 
-    // Regular Expression
-    string regularExpression =
-        "mul\\((\\d\\d\\d,|\\d\\d,|\\d,)(\\d\\d\\d|\\d\\d|\\d)\\)";
+    // Regular Expression, that match mul(x,y)
+    string regularExpression = "mul\\((\\d{1,3}),\\s*(\\d{1,3})\\)";
 
     string line;
 
+    int result { 0 };
+
     while (getline(file, line)) {
-        cout << line << endl;
 
-        auto res = findRegexMatches(line, regularExpression);
+        // Create Pattern Matches
+        auto allMatches = findRegexMatches(line, regularExpression);
 
-        cout << res.size() << endl;
+        for (auto &match : allMatches) {
+            result += (match.x * match.y);
+        }
     }
+    cout << "RESULT: " << result << endl;
 
     file.close();
 
