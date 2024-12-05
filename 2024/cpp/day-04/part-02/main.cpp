@@ -1,22 +1,3 @@
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
-
-#pragma region using-statments
-using std::cerr;
-using std::cout;
-using std::endl;
-using std::pair;
-using std::string;
-using std::vector;
-#pragma endregion
-
-#pragma region Program-Constants
-// const string FILE_PATH = "./2024/cpp/day-04/part-02/test.txt";
-const string FILE_PATH = "./2024/cpp/day-04/part-02/input.txt";
-#pragma endregion
-
 /*
 Goal of the problem
     - We are search with 'A' as root node
@@ -26,9 +7,32 @@ Goal of the problem
             - Validity for nodes for each edge:
                 - nodes are in bound
                 - two values for the two nodes are 'M','S' or 'S','M'
+
+Time : O(M*N), for M rows and N columns
+Space: O(M*N)
 */
 
-// Helper Fn
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::pair;
+using std::string;
+using std::vector;
+
+// -----------------------------------------------------------------
+// Forward Declarations
+// -----------------------------------------------------------------
+vector<vector<char>> matrix;
+int rows { 0 }, cols { 0 };
+
+// -----------------------------------------------------------------
+// Helper Fns
+// -----------------------------------------------------------------
 void printVector(vector<char> vec)
 {
     for (auto &ch : vec)
@@ -36,50 +40,67 @@ void printVector(vector<char> vec)
     cout << endl;
 }
 
-// Allowed Directions
-const vector<pair<int, int>> directions = {
-    // { 0, 0 },  // Current node
-    { -1, 0 }, // top
-    { -1, 1 }, // top-right
-    { 0, 1 },  // right
-    { 1, 1 },  // bottom-right
-    { 1, 0 },  // bottom
-    { 1, -1 }, // bottom-left
-    { 0, -1 }, // left
-    { -1, -1 } // top-left
-};
+// -----------------------------------------------------------------
+// Program Constants
+// -----------------------------------------------------------------
+// const string FILE_PATH = "./2024/cpp/day-04/part-02/test.txt";
+const string FILE_PATH = "./2024/cpp/day-04/part-02/input.txt";
 
-const string SEARCH_WORD = "XMAS";
-
-// Forward Declarations
-// Read & store the input data as a matrix of char's
-vector<vector<char>> matrix;
-int rows { 0 }, cols { 0 };
-
-int exploreInGivenDirection(int find_idx, int parentRow, int parentCol,
-                            pair<int, int> dir)
+// For a given node, which is 'A', check if it forms X shaped 'MAS'
+bool checkForX_MAS(int row, int col)
 {
-    int row { parentRow + dir.first }, col { parentCol + dir.second };
+    // LeftSlash => \ .
+    bool leftSlash { false };
 
-    // Base Case: Out of bounds
-    if (row < 0 || row >= rows || col < 0 || col >= cols) {
-        return 0;
-    }
+    // LeftSlash nodes -> top-left & bottom-right
+    int topLeftRow = row - 1;
+    int topLeftCol = col - 1;
+    int bottomRightRow = row + 1;
+    int bottomRightCol = col + 1;
 
-    // Base Case: Matched and is the last letter of search word
-    if (find_idx == 3 && SEARCH_WORD[find_idx] == matrix[row][col]) {
-        return 1;
-    }
+    if (topLeftRow < 0 || topLeftCol < 0 || bottomRightRow >= rows ||
+        bottomRightCol >= cols)
+        return false;
 
-    // Current letter matches: Explore next letter in the same direction
-    if (SEARCH_WORD[find_idx] == matrix[row][col]) {
-        return exploreInGivenDirection(find_idx + 1, row, col, dir);
-    }
+    //  \ => M.A.S
+    if (matrix[topLeftRow][topLeftCol] == 'M' &&
+        matrix[bottomRightRow][bottomRightCol] == 'S')
+        leftSlash = true;
 
-    // Current letter doesn't match
-    return 0;
+    //  \ => S.A.M
+    if (matrix[topLeftRow][topLeftCol] == 'S' &&
+        matrix[bottomRightRow][bottomRightCol] == 'M')
+        leftSlash = true;
+
+    // RightSlash => / .
+    bool rightSlash { false };
+
+    // RightSlash nodes -> top-right & bottom-left
+    int topRightRow = row - 1;
+    int topRightCol = col + 1;
+    int bottomLeftRow = row + 1;
+    int bottomLeftCol = col - 1;
+
+    if (topRightRow < 0 || topRightCol >= cols || bottomLeftRow >= rows ||
+        bottomLeftCol < 0)
+        return false;
+
+    //  / => S.A.M
+    if (matrix[topRightRow][topRightCol] == 'M' &&
+        matrix[bottomLeftRow][bottomLeftCol] == 'S')
+        rightSlash = true;
+
+    //  / => S.A.M
+    if (matrix[topRightRow][topRightCol] == 'S' &&
+        matrix[bottomLeftRow][bottomLeftCol] == 'M')
+        rightSlash = true;
+
+    return leftSlash && rightSlash;
 }
 
+// -----------------------------------------------------------------
+// Entry Point
+// -----------------------------------------------------------------
 int main()
 {
     cout << "--------------\nDAY-04 Part-02\n--------------" << endl;
@@ -115,16 +136,13 @@ int main()
 
             // If letter is 'A' => explore edges
             if (matrix[row][col] == 'A') {
-                for (auto &dir : directions) {
-                    result += exploreInGivenDirection(1, row, col, dir);
-                }
+                if (checkForX_MAS(row, col))
+                    result += 1;
             }
         }
     }
 
-    cout << "--------------\n";
     cout << "RESULT: " << result << endl;
-    cout << "--------------" << endl;
 
     file.close();
 
