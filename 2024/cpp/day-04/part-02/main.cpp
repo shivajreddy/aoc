@@ -17,6 +17,17 @@ using std::vector;
 const string FILE_PATH = "./2024/cpp/day-04/part-02/input.txt";
 #pragma endregion
 
+/*
+Goal of the problem
+    - We are search with 'A' as root node
+    - Edges from root node: where each edge has two nodes
+        [Top-Left, Bottom-Right] & [Top-Right, Bottom-Left]
+        - Both nodes of both the edges should be valid
+            - Validity for nodes for each edge:
+                - nodes are in bound
+                - two values for the two nodes are 'M','S' or 'S','M'
+*/
+
 // Helper Fn
 void printVector(vector<char> vec)
 {
@@ -102,8 +113,8 @@ int main()
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < cols; ++col) {
 
-            // If letter is 'X' => explore all 8 directions
-            if (matrix[row][col] == 'X') {
+            // If letter is 'A' => explore edges
+            if (matrix[row][col] == 'A') {
                 for (auto &dir : directions) {
                     result += exploreInGivenDirection(1, row, col, dir);
                 }
