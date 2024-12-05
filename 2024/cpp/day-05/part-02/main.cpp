@@ -1,13 +1,8 @@
 /*
-Solution :
-    - Create a graph based off section-1
-    - For each line in Section-2:
-        - Iterate over each number and check if its a valid path
-        - If valid path: get the middle number and add to result
+Goal:
 
-Time : O(N), where 'N' is the size of input: inclusive of all
-       edges in section-1 & paths in section-2
-Space: O(N), N is the graph
+Time :
+Space:
 */
 
 #include <fstream>
@@ -133,7 +128,7 @@ bool isValidateOrder(const vector<int> &nums)
 // -----------------------------------------------------------------
 int main()
 {
-    cout << "--------------\nDAY-05 Part-01\n--------------" << endl;
+    cout << "--------------\nDAY-05 Part-02\n--------------" << endl;
 
     // Read the input file
     std::ifstream file(FILE_PATH);
