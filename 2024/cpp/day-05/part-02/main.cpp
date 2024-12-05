@@ -5,9 +5,11 @@ Time :
 Space:
 */
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <queue>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -124,6 +126,54 @@ bool isValidateOrder(const vector<int> &nums)
 }
 
 // -----------------------------------------------------------------
+// TODO: Fix the incorrectly-ordered line
+// -----------------------------------------------------------------
+int fixIncorectOrderAndGetMiddle(const vector<int> &nums)
+{
+    vector<std::shared_ptr<Node>> nodes;
+
+    // Map the numbers to their corresponding graph nodes
+    for (int num : nums) {
+        if (graph.find(num) != graph.end()) {
+            nodes.push_back(graph[num]);
+        }
+    }
+
+    // Reorder the nodes based on graph relationships
+    vector<int> fixedOrder;
+    std::unordered_set<std::shared_ptr<Node>> visited;
+    std::queue<std::shared_ptr<Node>> toVisit;
+
+    // Start with the first node in the input order
+    if (!nodes.empty()) {
+        toVisit.push(nodes.front());
+    }
+
+    while (!toVisit.empty()) {
+        auto current = toVisit.front();
+        toVisit.pop();
+
+        if (visited.find(current) != visited.end()) {
+            continue;
+        }
+
+        visited.insert(current);
+        fixedOrder.push_back(current->key);
+
+        // Add children to the queue in order
+        for (auto &child : current->children) {
+            if (visited.find(child) == visited.end()) {
+                toVisit.push(child);
+            }
+        }
+    }
+
+    // Return the middle element of the reordered list
+    size_t middleIndex = fixedOrder.size() / 2;
+    return fixedOrder[middleIndex];
+}
+
+// -----------------------------------------------------------------
 // Entry Point
 // -----------------------------------------------------------------
 int main()
@@ -155,14 +205,17 @@ int main()
         } else {
             vector<int> nums = convertToVector(line);
 
-            if (isValidateOrder(nums)) {
-                int middleNumber = nums[(int)(nums.size() / 2)];
+            // Consider only wrong order lines
+            if (!isValidateOrder(nums)) {
+                // Fix them and get the middle number
+                int middleNumber = fixIncorectOrderAndGetMiddle(nums);
                 result += middleNumber;
             }
         }
     }
 
     cout << "RESULT: " << result << endl;
+    // 5025 <- too low
 
     file.close();
 
