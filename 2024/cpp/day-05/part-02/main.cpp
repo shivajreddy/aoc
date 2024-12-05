@@ -25,8 +25,8 @@ using std::vector;
 // -----------------------------------------------------------------
 // Program Constants
 // -----------------------------------------------------------------
-// const string FILE_PATH = "./2024/cpp/day-05/part-01/test.txt";
-const string FILE_PATH = "./2024/cpp/day-05/part-01/input.txt";
+const string FILE_PATH = "./2024/cpp/day-05/part-01/test.txt";
+// const string FILE_PATH = "./2024/cpp/day-05/part-01/input.txt";
 
 // -----------------------------------------------------------------
 // Forward Declarations
@@ -168,6 +168,12 @@ int fixIncorectOrderAndGetMiddle(const vector<int> &nums)
         }
     }
 
+    cout << "FIXED ORDER: ";
+    for (int num : fixedOrder) {
+        cout << num << " ";
+    }
+    cout << endl;
+
     // Return the middle element of the reordered list
     size_t middleIndex = fixedOrder.size() / 2;
     return fixedOrder[middleIndex];
@@ -207,6 +213,7 @@ int main()
 
             // Consider only wrong order lines
             if (!isValidateOrder(nums)) {
+                cout << "GIVEN ORDER: " << line << endl;
                 // Fix them and get the middle number
                 int middleNumber = fixIncorectOrderAndGetMiddle(nums);
                 result += middleNumber;
