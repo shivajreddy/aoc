@@ -13,8 +13,8 @@ using std::vector;
 #pragma endregion
 
 #pragma region Program-Constants
-// const string FILE_PATH = "./2024/cpp/day-04/part-01/test.txt";
-const string FILE_PATH = "./2024/cpp/day-04/part-01/input.txt";
+// const string FILE_PATH = "./2024/cpp/day-04/part-02/test.txt";
+const string FILE_PATH = "./2024/cpp/day-04/part-02/input.txt";
 #pragma endregion
 
 // Helper Fn
@@ -71,7 +71,7 @@ int exploreInGivenDirection(int find_idx, int parentRow, int parentCol,
 
 int main()
 {
-    cout << "--------------\nDAY-04 Part-01\n--------------" << endl;
+    cout << "--------------\nDAY-04 Part-02\n--------------" << endl;
 
     // Read the input file
     std::ifstream file(FILE_PATH);
