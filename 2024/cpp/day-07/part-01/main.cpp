@@ -6,9 +6,8 @@
 using namespace std;
 
 // -----------------------------------------------------------------
-// Program Constants
+// Convert the string line into vector of numbers
 // -----------------------------------------------------------------
-
 vector<int> getNumbers(const string &line)
 {
     vector<int> result;
@@ -29,6 +28,32 @@ vector<int> getNumbers(const string &line)
     return result;
 }
 
+bool isValid(vector<int> nums, int currResult, int idx)
+{
+    cout << "idx:" << idx << " currResult: " << currResult << endl;
+
+    int total = nums[0];
+
+    // Base Case: Past the list
+    if (idx >= nums.size()) {
+        cout << "\n";
+        return total == currResult;
+    }
+
+    if (idx == 1) {
+        currResult = nums[1];
+        return isValid(nums, currResult, idx + 1);
+    }
+
+    idx += 1;
+    for (; idx < nums.size(); idx++) {
+        int num = nums[idx];
+        return isValid(nums, currResult + num, idx) ||
+               isValid(nums, currResult * num, idx);
+    }
+    return false;
+}
+
 // -----------------------------------------------------------------
 // Entry Point
 // -----------------------------------------------------------------
@@ -43,14 +68,20 @@ int main()
         a.push_back(line);
     }
 
-    for (auto &item : a) {
-        cout << "item:" << item << endl;
-
-        vector<int> nums = getNumbers(line);
-        for (auto &num : nums)
-            cout << "num:" << num << ",";
-        // cout << endl;
+    vector<vector<int>> matrix;
+    for (auto &line : a) {
+        vector<int> row = getNumbers(line);
+        matrix.push_back(row);
     }
+
+    int answer = 0;
+    for (auto &row : matrix) {
+        if (isValid(row, -1, 0)) {
+            answer += row[0];
+        }
+    }
+
+    cout << "ANSWER: " << answer << endl;
 
     return 0;
 }
